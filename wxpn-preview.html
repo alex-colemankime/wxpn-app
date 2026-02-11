@@ -1,17 +1,17 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WXPN App Preview</title>
-  <style>html,body,#root{height:100%;margin:0;}</style>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WXPN App Preview</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>body{margin:0;background:#0D0B09;}</style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
+<div id="root"></div>
+<script type="text/babel">
 const { useState } = React;
 
 const C = {
@@ -336,7 +336,7 @@ const Mini = ({ onTap, playing }) => (
 );
 
 /* ═══════════════ LIVE SCREEN ═══════════════ */
-const LiveScreen = ({ playing, setPlaying }) => {
+const LiveScreen = ({ playing, setPlaying, onExpand }) => {
   const tracks = [
     { title: "Returning to Myself", artist: "Brandi Carlile", time: "2:34 PM", img: ALBUMS.returning },
     { title: "Right Back to It", artist: "Waxahatchee", time: "2:30 PM", img: ALBUMS.tigersBlood },
@@ -401,7 +401,7 @@ const LiveScreen = ({ playing, setPlaying }) => {
           background: C.card, border: `1px solid ${C.divider}`,
           padding: "12px",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div onClick={onExpand} style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}>
             <img src={ART} alt="" style={{ width: 90, height: 90, borderRadius: 12, objectFit: "cover" }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: C.accentSoft, letterSpacing: "0.18em", fontFamily: F.display, marginBottom: 6 }}>NOW PLAYING</div>
@@ -961,6 +961,90 @@ const SettingsScreen = () => {
   );
 };
 
+/* ═══════════════ EXPANDED NOW PLAYING ═══════════════ */
+const NowPlaying = ({ open, onClose, playing, setPlaying }) => (
+  <div style={{
+    position: "absolute", inset: 0, zIndex: 300,
+    background: C.bg,
+    transform: open ? "translateY(0)" : "translateY(100%)",
+    transition: "transform 0.35s cubic-bezier(0.32, 0.72, 0, 1)",
+    display: "flex", flexDirection: "column",
+    overflow: "hidden",
+  }}>
+    {/* Drag handle + collapse */}
+    <div style={{ padding: "14px 0 0", display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+      <div style={{ width: 36, height: 4, borderRadius: 2, background: C.textDim, opacity: 0.5, marginBottom: 8 }} />
+      <button onClick={onClose} style={{
+        background: "none", border: "none", cursor: "pointer", padding: 6,
+        transform: "rotate(90deg)",
+      }}>
+        {ic.chev(28, C.textMut)}
+      </button>
+    </div>
+
+    {/* Album art */}
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 32px", gap: 28 }}>
+      <div style={{
+        width: 240, height: 240, borderRadius: 16, overflow: "hidden",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
+      }}>
+        <img src={ART} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      </div>
+
+      {/* Track info */}
+      <div style={{ textAlign: "center", width: "100%" }}>
+        <div style={{ fontSize: 24, fontWeight: 600, color: C.cream, fontFamily: F.display, lineHeight: 1.2 }}>Returning to Myself</div>
+        <div style={{ fontSize: 18, color: C.peach, marginTop: 6 }}>Brandi Carlile</div>
+        <div style={{ fontSize: 14, color: C.textDim, marginTop: 4 }}>Returning to Myself — 2025</div>
+      </div>
+
+      {/* Live indicator */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 8, height: 8, borderRadius: 4, background: C.accent, boxShadow: "0 0 8px rgba(213,78,27,0.5)" }} />
+        <span style={{ fontSize: 13, fontWeight: 700, color: C.accentSoft, letterSpacing: "0.18em", fontFamily: F.display }}>LIVE ON 88.5</span>
+      </div>
+
+      {/* Controls */}
+      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+        <button style={{
+          ...ibtn, width: 48, height: 48, borderRadius: 24,
+          background: C.card, border: `1px solid ${C.divider}`,
+        }}>
+          {ic.heart(22, C.accent)}
+        </button>
+        <button onClick={() => setPlaying(!playing)} style={{
+          width: 72, height: 72, borderRadius: 36,
+          background: C.accent, border: "none", cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 8px 24px rgba(213,78,27,0.35)",
+        }}>
+          {playing ? ic.pause(32, C.bg) : ic.play(32, C.bg)}
+        </button>
+        <button style={{
+          ...ibtn, width: 48, height: 48, borderRadius: 24,
+          background: C.card, border: `1px solid ${C.divider}`,
+        }}>
+          {ic.cast(22, C.textMut)}
+        </button>
+      </div>
+    </div>
+
+    {/* On Air info at bottom */}
+    <div style={{
+      padding: "16px 20px 44px", flexShrink: 0,
+      borderTop: `1px solid ${C.divider}`,
+      display: "flex", alignItems: "center", gap: 12,
+    }}>
+      <img src={SHOWS.middays.img} alt="" style={{ width: 44, height: 44, borderRadius: 10, objectFit: "cover" }} />
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: C.textDim, letterSpacing: "0.14em", fontFamily: F.display }}>ON AIR</div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: C.cream, fontFamily: F.display }}>{SHOWS.middays.name}</div>
+      </div>
+      <span style={{ fontSize: 13, color: C.textDim, fontFamily: F.mono }}>{SHOWS.middays.time}</span>
+    </div>
+  </div>
+);
+
 /* ═══════════════ MAIN ═══════════════ */
 function WXPNApp() {
   const [screen, setScreen] = useState("live");
@@ -969,8 +1053,9 @@ function WXPNApp() {
   const [selectedShow, setSelectedShow] = useState(SHOWS.worldcafe);
   const [menuOpen, setMenuOpen] = useState(false);
   const [playing, setPlaying] = useState(true);
+  const [npOpen, setNpOpen] = useState(false);
 
-  const nav = id => { setScreen(id); setSub(null); setSettings(false); };
+  const nav = id => { setScreen(id); setSub(null); setSettings(false); setNpOpen(false); };
   const showBack = settings || !!sub;
   const showMini = screen !== "live" && sub !== "archive" && !settings;
   const menuItems = [
@@ -1002,7 +1087,7 @@ function WXPNApp() {
     if (sub === "archive") return <ArchivePlayer show={selectedShow} />;
     if (screen === "shows") return <ShowsScreen onShow={(show) => { setSelectedShow(show); setSub("show"); }} />;
     if (screen === "favorites") return <FavScreen onShow={(show) => { setSelectedShow(show); setScreen("shows"); setSub("show"); }} />;
-    return <LiveScreen playing={playing} setPlaying={setPlaying} />;
+    return <LiveScreen playing={playing} setPlaying={setPlaying} onExpand={() => setNpOpen(true)} />;
   };
 
   return (
@@ -1029,8 +1114,9 @@ function WXPNApp() {
           onMenu={() => setMenuOpen(true)}
         />
         {content()}
-        {showMini && <Mini onTap={() => nav("live")} playing={playing} />}
+        {showMini && <Mini onTap={() => setNpOpen(true)} playing={playing} />}
         <Nav active={screen} onNav={nav} />
+        <NowPlaying open={npOpen} onClose={() => setNpOpen(false)} playing={playing} setPlaying={setPlaying} />
       </Phone>
 
       <div style={{ marginTop: 20, display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: 420 }}>
@@ -1057,7 +1143,8 @@ function WXPNApp() {
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(WXPNApp));
-  </script>
+
+ReactDOM.createRoot(document.getElementById("root")).render(<WXPNApp />);
+</script>
 </body>
 </html>
