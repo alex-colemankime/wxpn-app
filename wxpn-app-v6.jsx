@@ -75,7 +75,10 @@ const ARTIST = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=3
 const TRACK = "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=100&h=100&fit=crop&q=60";
 
 const HOSTS = [
-  { name: "Kristen Kurtis", show: "Morning Show", time: "Weekdays 6–10a", img: "https://backend.xpn.org/app/uploads/2022/01/Kristen_Portrait-350x350.jpg" },
+  { group: true, show: "Morning Show", time: "Weekdays 6–10a", hosts: [
+    { name: "Kristen Kurtis", img: "https://backend.xpn.org/app/uploads/2022/01/Kristen_Portrait-350x350.jpg" },
+    { name: "Bob Bumbera", img: "https://backend.xpn.org/app/uploads/2022/01/Bob_Portrait-350x350.jpg" },
+  ]},
   { name: "Mike Vasilikos", show: "WXPN Middays", time: "Weekdays 10a–2p", img: "https://backend.xpn.org/app/uploads/2022/01/DSC1315-350x350.jpg" },
   { name: "Raina Douris", show: "World Cafe", time: "Weekdays 2–4p", img: "https://backend.xpn.org/app/uploads/2022/01/Raina_Portrait-350x350.jpg" },
   { name: "Dan Reed", show: "WXPN Afternoons", time: "Weekdays 4–7p", img: "https://backend.xpn.org/app/uploads/2022/01/Dan_Portrait-350x350.jpg" },
@@ -85,7 +88,6 @@ const HOSTS = [
   { name: "David Dye", show: "World Cafe (emeritus)", time: "", img: "https://backend.xpn.org/app/uploads/2022/01/David_Dye_credit_Joe_del_Tufo-350x350.jpg" },
   { name: "Kathy O'Connell", show: "Kids Corner", time: "Weekdays 7–8p", img: "https://backend.xpn.org/app/uploads/2022/01/Kathy_Portrait2-350x350.jpg" },
   { name: "John Diliberto", show: "Echoes", time: "Weeknights 10p–12a", img: "https://backend.xpn.org/app/uploads/2022/01/John_Diliberto_credit_Joe_del_Tufo-350x350.jpg" },
-  { name: "Bob Bumbera", show: "Overnight Host", time: "Sat 12–6a", img: "https://backend.xpn.org/app/uploads/2022/01/Bob_Portrait-350x350.jpg" },
 ];
 
 const SHOWS = {
@@ -96,14 +98,24 @@ const SHOWS = {
     time: "Weekdays • 10a–2p",
     img: "https://backend.xpn.org/app/uploads/2022/03/Middays-350x350.jpg",
     desc: "A midday blend of new releases, staples, and local favorites with a relaxed, curious pace.",
+    episodes: [
+      { title: "New Music Tuesday", date: "Feb 11", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Middays-350x350.jpg" },
+      { title: "Midday Mix", date: "Feb 10", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Middays-350x350.jpg" },
+      { title: "Listener Request Hour", date: "Feb 7", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Middays-350x350.jpg" },
+    ],
   },
   morning: {
     id: "morning",
     name: "WXPN Morning Show",
-    host: "Kristen Kurtis",
+    host: "Kristen Kurtis & Bob Bumbera",
     time: "Weekdays • 6–10a",
     img: "https://backend.xpn.org/app/uploads/2021/11/morning_show_sq-350x350.jpg",
     desc: "Start the day with a bright mix of music discovery, context, and the latest from the region.",
+    episodes: [
+      { title: "Tuesday Morning", date: "Feb 11", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2021/11/morning_show_sq-350x350.jpg" },
+      { title: "Monday Morning", date: "Feb 10", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2021/11/morning_show_sq-350x350.jpg" },
+      { title: "Friday Morning", date: "Feb 7", dur: "4 hr", img: "https://backend.xpn.org/app/uploads/2021/11/morning_show_sq-350x350.jpg" },
+    ],
   },
   worldcafe: {
     id: "worldcafe",
@@ -112,6 +124,13 @@ const SHOWS = {
     time: "Weekdays • 2–4p",
     img: "https://backend.xpn.org/app/uploads/2022/01/wc_npr_logo_og_image-350x350.jpg",
     desc: "Live sessions, deep interviews, and a daily look at artists shaping the sound of now.",
+    episodes: [
+      { title: "Guerilla Toss Session", date: "Feb 9", dur: "52 min", img: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/960x540+0+0/resize/800/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Ffb%2F91%2F54f754ff4d53aebbc8b3d060b500%2Fguerillatoss-2025-promo-01-ebruyildiz-2500x1667-300.jpg" },
+      { title: "This Is Lorelei on Holo Boy", date: "Feb 5", dur: "48 min", img: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/3600x2025+0+0/resize/800/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fa1%2F38%2Fb27fa7f24f8e995f5eb0485d6888%2F709a40e4-6607-4373-9f1b-671bc6ea6465.jpg" },
+      { title: "Call and Response in Black Music", date: "Feb 4", dur: "55 min", img: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/3600x2025+0+0/resize/800/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F24%2F8c%2F3ee43b634fdaabb9fb97ddd25c60%2F5baafa8f-8a56-4f54-8927-87e6bc91a3ff.jpg" },
+      { title: "The Rise of Baltimore Club Music", date: "Feb 3", dur: "44 min", img: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/3360x1890+0+0/resize/800/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fc6%2Fa8%2F4fa8473742b4aad18fcee0600c4c%2F2c3db3ea-2201-4b87-be2d-bd12dafc75e3.jpg" },
+      { title: "Dan Deacon on Baltimore", date: "Jan 30", dur: "50 min", img: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/3360x1890+0+0/resize/800/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F75%2Fbe%2Fdd77c6d344b2bd1cf6df899b677e%2Fd90ed12a-7d4f-4fca-916f-1ee4fe4878d4.jpg" },
+    ],
   },
   afternoons: {
     id: "afternoons",
@@ -120,6 +139,11 @@ const SHOWS = {
     time: "Weekdays • 4–7p",
     img: "https://backend.xpn.org/app/uploads/2022/03/Afternoons-350x350.jpg",
     desc: "A smart, energetic soundtrack for the drive home with daily features and context.",
+    episodes: [
+      { title: "Tuesday Drive", date: "Feb 11", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Afternoons-350x350.jpg" },
+      { title: "Monday Drive", date: "Feb 10", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Afternoons-350x350.jpg" },
+      { title: "Friday Drive", date: "Feb 7", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/03/Afternoons-350x350.jpg" },
+    ],
   },
   funky: {
     id: "funky",
@@ -128,6 +152,11 @@ const SHOWS = {
     time: "Fridays • 8–11p",
     img: "https://backend.xpn.org/app/uploads/2022/01/funky_friday_logo_screen-350x350.jpg",
     desc: "Grooves, deep cuts, and dance-floor energy to kick off the weekend.",
+    episodes: [
+      { title: "Funk & Soul Classics", date: "Feb 7", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/01/funky_friday_logo_screen-350x350.jpg" },
+      { title: "Disco Revival Night", date: "Jan 31", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/01/funky_friday_logo_screen-350x350.jpg" },
+      { title: "New Funk Friday", date: "Jan 24", dur: "3 hr", img: "https://backend.xpn.org/app/uploads/2022/01/funky_friday_logo_screen-350x350.jpg" },
+    ],
   },
   freeatnoon: {
     id: "freeatnoon",
@@ -136,6 +165,11 @@ const SHOWS = {
     time: "Fridays • Noon",
     img: "https://backend.xpn.org/app/uploads/2025/01/FAN_logo-green_sans-XPN-1-e1737491524361.png",
     desc: "Weekly live sessions recorded at WXPN with standout artists and special guests.",
+    episodes: [
+      { title: "Iron & Wine", date: "Feb 7", dur: "45 min", img: "https://backend.xpn.org/app/uploads/2025/01/FAN_logo-green_sans-XPN-1-e1737491524361.png" },
+      { title: "Kashus Culpepper", date: "Jan 31", dur: "40 min", img: "https://backend.xpn.org/app/uploads/2025/01/FAN_logo-green_sans-XPN-1-e1737491524361.png" },
+      { title: "Gigi Perez", date: "Jan 24", dur: "42 min", img: "https://backend.xpn.org/app/uploads/2025/01/FAN_logo-green_sans-XPN-1-e1737491524361.png" },
+    ],
   },
 };
 
@@ -547,7 +581,30 @@ const ShowsScreen = ({ onShow }) => {
       ) : tab === "hosts" ? (
         /* Hosts view */
         <div style={{ padding: "8px 0" }}>
-          {HOSTS.map((h, i) => (
+          {HOSTS.map((h, i) => h.group ? (
+            <div key={i} style={{
+              margin: "8px 12px", borderRadius: 14, background: C.card,
+              border: `1px solid ${C.divider}`,
+            }}>
+              <div style={{ padding: "14px", display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div>
+                    <div style={{ fontSize: 14, color: C.accent }}>{h.show}</div>
+                    {h.time && <div style={{ fontSize: 12, color: C.textDim, fontFamily: F.mono, marginTop: 3 }}>{h.time}</div>}
+                  </div>
+                  <button style={ibtn}>{ic.chev(20, C.accent)}</button>
+                </div>
+                <div style={{ display: "flex", gap: 14 }}>
+                  {h.hosts.map((co, j) => (
+                    <div key={j} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <img src={co.img} alt="" style={{ width: 48, height: 48, borderRadius: 24, objectFit: "cover", border: `2px solid ${C.divider}` }} />
+                      <div style={{ fontSize: 15, fontWeight: 600, color: C.cream, fontFamily: F.display }}>{co.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
             <div key={i} style={{
               margin: "8px 12px", borderRadius: 14, background: C.card,
               border: `1px solid ${C.divider}`,
@@ -653,17 +710,12 @@ const ShowDetail = ({ show, onBack, onEp }) => {
         </button>
       </div>
       <div style={{ height: 1, background: C.divider, margin: "0 16px" }} />
-      {[
-        { title: "Adia Victoria Session", date: "Feb 9", dur: "52 min" },
-        { title: "Waxahatchee in Studio", date: "Feb 7", dur: "48 min" },
-        { title: "Best of January", date: "Feb 5", dur: "55 min" },
-        { title: "Fontaines D.C. Interview", date: "Feb 3", dur: "44 min" },
-      ].map((ep, i) => (
+      {(s.episodes || []).map((ep, i) => (
         <div key={i} style={{ margin: "8px 12px", borderRadius: 12, background: C.card, border: `1px solid ${C.divider}` }}>
           <div onClick={() => onEp?.()} style={{
             display: "flex", alignItems: "center", gap: 14, padding: "14px", cursor: "pointer",
           }}>
-            <img src={ARTIST} alt="" style={{ width: 56, height: 56, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />
+            <img src={ep.img || s.img} alt="" style={{ width: 56, height: 56, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 17, fontWeight: 500, color: C.cream }}>{ep.title}</div>
               <div style={{ fontSize: 14, color: C.textMut }}>{ep.date} — {ep.dur}</div>
